@@ -91,27 +91,24 @@ const expanses = [
 
 /** SECTION:  Work area */
 
-//1. Based on the income of 3 months period given in the Task data area,
-//       calculate how much of savings you should have.
+const mapAmount = expanses.map((month) => month.transactions)
+console.log("Month income/outcome: ", mapAmount)
+const sumArrays = mapAmount.map((array) => array.reduce((accumulator, value) =>  {
+  if (value.income === true) {
+    return accumulator + value.amount;
+  }
+  return accumulator;
+},0))
+const sumMonths = sumArrays.reduce((accumulator, value) => accumulator + value, 0)
+console.log("The income of 3 months: ", sumMonths)
 
-const totalIncome = expanses
-  .map(function (item) {
-    return item.transactions.filter((smt) => smt.income == true);
-  })
-  .reduce(function (a, b) {
-    b.forEach(function (c) {
-      a += c.amount;
-    });
-    return a;
-  }, 0);
-
-const totalSavings = Math.round((totalIncome * 20) / 100);
-console.log("I saved", totalSavings);
-
-if (totalSavings >= 35000) {
-  console.log("Idemo na Mars, Idemo na Mars");
-} else {
-  console.log("Idemo na Livadu, Idemo na Livadu");
+const trueFalse = () => {
+  if (sumMonths >= ticketPrice) {
+    return true
+  } else {
+    return false
+  }
 }
+console.log("Do you have enough savings to go to Mars: ", trueFalse())
 
 /** !SECTION */

@@ -53,11 +53,11 @@ const posts = [
 const isValidUrl = (urlString) => {
   var urlPattern = new RegExp(
     "^(https?:\\/\\/)?" + // validate protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%.~+]*)*" + // validate port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
-      "(\\#[-a-z\\d_]*)?$",
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%.~+]*)*" + // validate port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+    "(\\#[-a-z\\d_]*)?$",
     "i"
   ); // validate fragment locator
   return !!urlPattern.test(urlString);
@@ -66,25 +66,15 @@ const isValidUrl = (urlString) => {
 /**!SECTION */
 
 /** SECTION:  Work area */
+var moment = require('moment'); // require
+moment().format(); 
 
-const buildUrl = posts.map(
-  (url) =>
-    "https://" +
-    "www.join-the-javascript.club" +
-    ":6379" +
-    "/" +
-    new Date(url.created_at * 1000).getUTCFullYear() +
-    "/" +
-    (new Date(url.created_at * 1000).getUTCMonth()+1) +
-    "/" +
-    new Date(url.created_at * 1000).getUTCDate() +
-    "/" +
-    url.title.toLowerCase().replace(/ /g, "-").replace(/[?=]/g, "")
-);
+const urlSlug = posts.map((post) => 'https://' + 'www.join-the-javascript.club' + ':6397' + '/' +
+moment(new Date(post.created_at * 1000)).format("YYYY/MM/DD") + '/' + post.title.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s/g, '-').toLowerCase())
 
-console.log(buildUrl);
+console.log("URLs: ", urlSlug)
 
-const validateUrl = buildUrl.map((valid) => isValidUrl(valid));
-console.log("validate url", validateUrl);
+const validationURL = urlSlug.map((url) => isValidUrl(url))
+console.log("URL validations: ", validationURL)
 
 /** !SECTION */
